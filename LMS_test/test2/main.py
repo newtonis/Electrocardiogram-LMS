@@ -132,7 +132,6 @@ for signal_name in all_signals.keys():
     all_signals[signal_name] = {'upper' : upper_signal, 'lower' : lower_signal, 'meta':metadata, 'annot': annotations}
 
 
-
 filter_size = 500
 
 predictor_filter = FilterLMS(n=filter_size, w='zeros', mu=0.005)
