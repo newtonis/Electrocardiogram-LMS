@@ -16,7 +16,10 @@ time_cycle = 1.4
 señal = all_signals["202"]["upper"][:timespan*fs]
 t = np.arange(len(señal)) / fs
 
-#errores = all_signals["202"]["anomalies"].keys()
+errores = list(all_signals["202"]["anomalies"].keys())
+
+for i in range(len(errores)):
+    errores[i] = float(errores[i]) / fs
 
 señal = detrend(señal)
 
@@ -27,15 +30,26 @@ filtered, error = myFilterARF.train(peaks, señal)
 
 fig, (ax1, ax2, ax3, ax4) = plt.subplots(4, sharex=True)
 
-ax1.plot(señal)
+ax1.plot(t, señal)
 
-#for ei in errores:
-#    ax1.plot([ei], [0], 'bo')
+minv = min(señal)
+maxv = max(señal)
 
-ax2.plot(peaks)
+for ei in errores:
+    if ei < timespan:
+        ax1.plot([ei, ei], [minv, maxv], 'orange')
 
-ax3.plot(filtered)
+ax2.plot(t, peaks)
 
-ax4.plot(error)
+ax3.plot(t, filtered)
+
+minv = min(error)
+maxv = max(error)
+
+for ei in errores:
+    if ei < timespan:
+        ax4.plot([ei, ei], [minv, maxv], 'orange')
+
+ax4.plot(t, error)
 
 plt.show()

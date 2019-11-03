@@ -38,12 +38,12 @@ for signal_name in all_signals.keys():
     #print(metadata)
     all_signals[signal_name] = {'upper' : upper_signal, 'lower' : lower_signal, 'meta':metadata, 'annot': annotations}
 
-# for key in all_signals.keys():
-#     anot = all_signals[key]['annot']
-#     anot.symbol = ['A' if i is not 'N' else 'N' for i in anot.symbol]
-#     # guardamos el sample en el que se produce la anomalia y el indice de la misma en el anot.sample
-#     all_signals[key]['anomalies'] = {anot.sample[i]: i for i in range(len(anot.symbol)) if anot.symbol[i] is 'A'}
-#     # guardamos el sample en el que se produce la anotacion normal y el indice de la misma en el anot.sample
-#     all_signals[key]['not_anomalies'] = {anot.sample[i]: i for i in range(len(anot.symbol)) if anot.symbol[i] is 'N'}
-#
+for key in all_signals.keys():
+    anot = all_signals[key]['annot']
+    anot.symbol = ['A' if i is not 'N' else 'N' for i in anot.symbol]
+    # guardamos el sample en el que se produce la anomalia y el indice de la misma en el anot.sample
+    all_signals[key]['anomalies'] = {anot.sample[i]: i for i in range(len(anot.symbol)) if anot.symbol[i] is 'A'}
+    # guardamos el sample en el que se produce la anotacion normal y el indice de la misma en el anot.sample
+    all_signals[key]['not_anomalies'] = {anot.sample[i]: i for i in range(len(anot.symbol)) if anot.symbol[i] is 'N'}
+
 # anot = all_signals[list(all_signals.keys())[0]]['annot']
