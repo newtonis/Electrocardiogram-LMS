@@ -7,6 +7,8 @@
 \usepackage{graphicx}
 \usepackage{textcomp}
 \usepackage{xcolor}
+\usepackage{float}
+
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
@@ -42,11 +44,20 @@ The design and testing of the detector was based on the MIT-BIH Arrhythmia Datab
 ECG analysis, heart anomaly detection, Adaptive Filtering, LMS filters
 \end{IEEEkeywords}
 
+
 \section{Introduction}
 
-An Adaptive Recursive Filter (ARF) is an adaptive filter whose coefficients change so that when it is adapted, its impulse response converges to a single pseudo-period of an ideally periodic signal. The ARF is therefore applied to signals that are known to have periodic behaviour with considerably small changes through time in both its pseudo-periods and its fundamental period.\par
-The signal in question may be then considered to be stationary between time intervals of a given length.\par
-A diagram of the ARF, taken from \cite{b1} is shown below:
+
+\subsection{Electrocardiogram signals}
+
+An Electrocardiogram (ECG) signal is a non invasive recording (electrodes are placed on the patient's skin) of the electrical activity of a heart. There are several places where the signals may be recorded, and usually as many as ten electrodes are used to perform an ECG, where the polarization and repolarization of the heart muscles are recorded. \par
+An ECG portrays an incredibly large amount of information from the patient, such as the rate and rhythm of heartbeats, the size and position of the heart chambers, the presence of any damage to the heart's muscle cells or conduction system, the effects of heart drugs, and the function of implanted pacemakers.\par
+These polarization cycles form the main three components of a heart signal, which are listed as follows:
+\begin{enumerate}
+\item \underline{P-wave} : Depolarization of the atria. This component is frequently the one with the lowest amplitude.
+\item \underline{QRS complex}: Depolarization of the ventricles. In the QRS complex a peak of high frequency and the highest amplitude is detected. 
+\item \underline{T-wave}: Repolarization of the ventricles.
+\end{enumerate} 
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[scale=0.7]{ARF_diagram.png}}
@@ -54,10 +65,42 @@ A diagram of the ARF, taken from \cite{b1} is shown below:
 \label{fig}
 \end{figure}
 
+These components were enumerated in their usual order of appearance. However, some patients with heart abnormalities exhibit a P-wave that superposes over the QRS complex, so the techniques developed below should take into account this factor when analysing the ECG signal even with no previous knowledge of the abnormality. Adaptive filters have been proven efficient in such cases. \par
 
-\section{Ease of Use}
+\subsection{Adaptive Recursive Filters}
 
-\subsection{Maintaining the Integrity of the Specifications}
+An Adaptive Recursive Filter (ARF) is an adaptive filter whose coefficients change so that when it is adapted, its impulse response converges to a single pseudo-period of an ideally periodic signal. The ARF is therefore applied to signals that are known to have periodic behaviour with considerably small changes through time in both its pseudo-periods and its fundamental period.\par
+The signal in question may be then considered to be stationary between time intervals of a given length.\par
+A diagram of the ARF, taken from \cite{b1} is shown below:
+
+\begin{figure}[H]
+\centerline{\includegraphics[scale=0.7]{ARF_diagram.png}}
+\caption{Basic diagram of an ARF}
+\label{fig}
+\end{figure}
+
+
+\section{LMS prediction}
+
+The first approach taken was the implementation of an adaptive predictor based on the following diagram:
+\begin{figure}[H]
+\centerline{\includegraphics[scale=0.7]{ARF_diagram.png}}
+\caption{Basic diagram of an ARF}
+\label{fig}
+\end{figure}
+
+The implementation achieved its desired purpose of predicting the signal, as shown in the following figure:
+
+\begin{figure}[H]
+\centerline{\includegraphics[scale=0.7]{ARF_diagram.png}}
+\caption{Signal 202 of the MIT-BIH Arrhythmia Database, minute , and the predictor's response.}
+\label{fig}
+\end{figure}
+
+The magnitude of the error signal was afterwards processed in order to get its peaks, which where considered anomalies when its amplitude exceeded a designated value. This method of anomaly detection did not manage to achieve acceptable results as the predictor error tends to raise when the ECG signal has high frequency changes, and so the the peaks of the QRS complex were also taken as anomalies. \par
+Although this problem disqualified the method, if the QRS complex is detected via a previous analysis of the signal, discarding the false positives that appear with its peaks may be a path to be followed in future investigations.\par
+
+\subsection{Implementation of the ARF}
 
 The IEEEtran class file is used to format your paper and style the text. All margins, 
 column widths, line spaces, and text fonts are prescribed; please do not 
