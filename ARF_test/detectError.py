@@ -42,7 +42,7 @@ def cuantificarError(erroresReales, erroresCalculados):
 
     for i in range(len(erroresReales)):
         if erroresReales[i] > 0.5 and okRange[i] < 0.5:
-            print("Verdadero negativo en %0.2f" % ((i + 90 * fs) / fs))
+            #print("Verdadero negativo en %0.2f" % ((i + 90 * fs) / fs))
             verdaderosNegativos += 1
 
     okRange = np.zeros(len(erroresReales))
@@ -53,7 +53,7 @@ def cuantificarError(erroresReales, erroresCalculados):
 
     for i in range(len(erroresCalculados)):
         if erroresCalculados[i] and okRange[i] < 0.5:
-            print("Falso positivo en %0.2f" % ((i+90*fs)/fs) )
+            #print("Falso positivo en %0.2f" % ((i+90*fs)/fs) )
             falsosPositivos += 1
 
     return falsosPositivos, verdaderosNegativos

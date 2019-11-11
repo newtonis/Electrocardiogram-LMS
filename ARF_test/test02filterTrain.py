@@ -82,13 +82,13 @@ def plotSignal(code):
     return erroresReales, erroresCalculados, len(errores), errorCount
 
 
+if 0:
+    erroresReales, erroresCalculados, countReal, countCalculado = plotSignal("202")
 
-erroresReales, erroresCalculados, countReal, countCalculado = plotSignal("202")
 
+    falsosPositivos, verdaderosNegativos = cuantificarError(erroresReales[90*fs:], erroresCalculados[90*fs:])
 
-falsosPositivos, verdaderosNegativos = cuantificarError(erroresReales[90*fs:], erroresCalculados[90*fs:])
+    print("Falsos positivos: %d/%d" % (falsosPositivos, countCalculado))
+    print("Verdaderos negativos: %d/%d" % (verdaderosNegativos, countReal))
 
-print("Falsos positivos: %d/%d" % (falsosPositivos, countCalculado))
-print("Verdaderos negativos: %d/%d" % (verdaderosNegativos, countReal))
-
-plt.show()
+    plt.show()
