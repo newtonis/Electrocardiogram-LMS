@@ -7,6 +7,8 @@
 \usepackage{graphicx}
 \usepackage{textcomp}
 \usepackage{xcolor}
+\usepackage{float}
+
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
@@ -40,11 +42,20 @@ The design and testing of the detector was based on the MIT-BIH Arrhythmia Datab
 ECG analysis, heart anomaly detection, Adaptive Filtering, LMS filters
 \end{IEEEkeywords}
 
+
 \section{Introduction}
 
-An Adaptive Recursive Filter (ARF) is an adaptive filter whose coefficients change so that when it is adapted, its impulse response converges to a single pseudo-period of an ideally periodic signal. The ARF is therefore applied to signals that are known to have periodic behaviour with considerably small changes through time in both its pseudo-periods and its fundamental period.\par
-The signal in question may be then considered to be stationary between time intervals of a given length.\par
-A diagram of the ARF, taken from \cite{b1} is shown below:
+
+\subsection{Electrocardiogram signals}
+
+An Electrocardiogram (ECG) signal is a non invasive recording (electrodes are placed on the patient's skin) of the electrical activity of a heart. There are several places where the signals may be recorded, and usually as many as ten electrodes are used to perform an ECG, where the polarization and repolarization of the heart muscles are recorded. \par
+An ECG portrays an incredibly large amount of information from the patient, such as the rate and rhythm of heartbeats, the size and position of the heart chambers, the presence of any damage to the heart's muscle cells or conduction system, the effects of heart drugs, and the function of implanted pacemakers.\par
+These polarization cycles form the main three components of a heart signal, which are listed as follows:
+\begin{itemize}
+\item \underline{P-wave} : Depolarization of the atria. This component is frequently the one with the lowest amplitude.
+\item \underline{QRS complex}: Depolarization of the ventricles. In the QRS complex a peak of high frequency and the highest amplitude is detected. 
+\item \underline{T-wave}: Repolarization of the ventricles.
+\end{itemize} 
 
 \begin{figure}[htbp]
 \centerline{\includegraphics[scale=0.7]{ARF_diagram.png}}
@@ -52,20 +63,72 @@ A diagram of the ARF, taken from \cite{b1} is shown below:
 \label{fig}
 \end{figure}
 
+These components were enumerated in their usual order of appearance. However, some patients with heart abnormalities exhibit a P-wave that superposes over the QRS complex, so the techniques developed below should take into account this factor when analysing the ECG signal even with no previous knowledge of the abnormality. Adaptive filters have been proven efficient in such cases. \par
 
-\section{Ease of Use}
+\subsection{Adaptive Recursive Filters}
 
-\subsection{Maintaining the Integrity of the Specifications}
+An Adaptive Recursive Filter (ARF) is an adaptive filter whose coefficients change so that when it is adapted, its impulse response converges to a single pseudo-period of an ideally periodic signal. The ARF is therefore applied to signals that are known to have periodic behaviour with considerably small changes through time in both its pseudo-periods and its fundamental period.\par
+The signal in question may be then considered to be stationary between time intervals of a given length.\par
+A diagram of the ARF, taken from \cite{b1} is shown below:
 
-The IEEEtran class file is used to format your paper and style the text. All margins, 
-column widths, line spaces, and text fonts are prescribed; please do not 
-alter them. You may note peculiarities. For example, the head margin
-measures proportionately more than is customary. This measurement 
-and others are deliberate, using specifications that anticipate your paper 
-as one part of the entire proceedings, and not as an independent document. 
-Please do not revise any of the current designations.
+\begin{figure}[H]
+\centerline{\includegraphics[scale=0.7]{ARF_diagram.png}}
+\caption{Basic diagram of an ARF}
+\label{fig}
+\end{figure}
 
-\section{Prepare Your Paper Before Styling}
+
+\section{LMS prediction}
+
+The first approach taken was the implementation of an adaptive predictor based on the following diagram:
+\begin{figure}[H]
+\centerline{\includegraphics[scale=0.7]{ARF_diagram.png}}
+\caption{Basic diagram of an ARF}
+\label{fig}
+\end{figure}
+
+The implementation achieved its desired purpose of predicting the signal, as shown in the following figure:
+
+\begin{figure}[H]
+\centerline{\includegraphics[scale=0.7]{ARF_diagram.png}}
+\caption{Signal 202 of the MIT-BIH Arrhythmia Database, minute , and the predictor's response.}
+\label{fig}
+\end{figure}
+
+The magnitude of the error signal was afterwards processed in order to get its peaks, which where considered anomalies when its amplitude exceeded a designated value. This method of anomaly detection did not manage to achieve acceptable results as the predictor error tends to raise when the ECG signal has high frequency changes, and so the the peaks of the QRS complex were also taken as anomalies. \par
+Although this problem disqualified the method, if the QRS complex is detected via a previous analysis of the signal, discarding the false positives that appear with its peaks may be a path to be followed in future investigations.\par
+
+\section{Detection}
+
+The detection of each anomaly consists of applying the detection algorithm to the entire ECG signal or a portion of it. The steps of this algorithm are in line with the arrythmia detection method stated by \cite{b1}:
+
+\begin{enumerate}
+\item Find the peaks of each QRS complex.
+\item Generate an impulse signal in which each impulse coincides with the beggining of the QRS complex.  
+\item Feed the ARF with both the new impulse signal and the ECG. 
+\item Get the error signal of the ARF after processing the inputs.
+\item Identify the peaks of the absolute error signal and select those points in which these peaks may signify an anomaly.
+\end{enumerate}
+
+Choosing to generate an impulse at the start of the QRS complex and not at the start of the P-wave is the solution for the possibility of an abnormality in the P-wave that may provoke it to overlap with other components of the signal. The ARF will make its impulse response copy by default the QRS complex and the T-wave, and in such case that no overlapping ocurrs, the P-wave will also be shown in the impulse response of the filter.
+
+\subsection{Detection of the QRS complex}
+
+The localization of the QRS complex is based on the detection of high amplitude peaks. This may be done by assuming signal stationarity for some interval of time. Fifteen pseudo-periods of the signal has been proven an effective amount of time. The period has been estimated with the a priori knowledge of an ECG: The period of a heart signal is of approximately 1 beat per second. Taking this into account and the fact that the sample rate of the MIT-BIH Database is 360 Hz, a number of 350 samples was the estimated length of a heart beat. \par
+After defining the stationary interval, the signal is then converted to its energy signal by simply squaring each value. Converting the signal to its energy signal for peak detection has two advantages:
+
+\begin{enumerate}
+\item All values of the energy signal will be non negative.
+\item Greater values will be weigthed as more important and significative than smaller values as pondered by the square function.
+\end{enumerate}
+
+A peak will be detected each time a sample of the energy signal has a value that is at least 0.55 times the maximum value of the interval.
+
+\subsection{Generation of the impulse signal}
+
+As each peak of the QRS complex corresponds to the R component of the signal, a time shift should be applied so that the generated impulse signal will have its impulse assigned to the beginning of the QRS complex. This time shift should also be estimated in a proportion of the estimated pseudo-period time.
+
+\section{Accuracy of the method}
 Before you begin to format your paper, first write and save the content as a 
 separate text file. Complete all content and organizational editing before 
 formatting. Please note sections \ref{AA}--\ref{SCM} below for more information on 
@@ -75,19 +138,6 @@ Keep your text and graphic files separate until after the text has been
 formatted and styled. Do not number text heads---{\LaTeX} will do that 
 for you.
 
-\subsection{Abbreviations and Acronyms}\label{AA}
-Define abbreviations and acronyms the first time they are used in the text, 
-even after they have been defined in the abstract. Abbreviations such as 
-IEEE, SI, MKS, CGS, ac, dc, and rms do not have to be defined. Do not use 
-abbreviations in the title or heads unless they are unavoidable.
-
-\subsection{Units}
-\begin{itemize}
-\item Use either SI (MKS) or CGS as primary units. (SI units are encouraged.) English units may be used as secondary units (in parentheses). An exception would be the use of English units as identifiers in trade, such as ``3.5-inch disk drive''.
-\item Avoid combining SI and CGS units, such as current in amperes and magnetic field in oersteds. This often leads to confusion because equations do not balance dimensionally. If you must use mixed units, clearly state the units for each quantity that you use in an equation.
-\item Do not mix complete spellings and abbreviations of units: ``Wb/m\textsuperscript{2}'' or ``webers per square meter'', not ``webers/m\textsuperscript{2}''. Spell out units when they appear in text: ``. . . a few henries'', not ``. . . a few H''.
-\item Use a zero before decimal points: ``0.25'', not ``.25''. Use ``cm\textsuperscript{3}'', not ``cc''.)
-\end{itemize}
 
 \subsection{Equations}
 Number equations consecutively. To make your 
