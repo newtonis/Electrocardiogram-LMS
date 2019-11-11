@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6930 64-bit) (preloaded format=pdflatex 2019.3.25)  11 NOV 2019 13:29
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6930 64-bit) (preloaded format=pdflatex 2019.3.25)  11 NOV 2019 15:23
 entering extended mode
 **./conference_101719.tex
 (conference_101719.tex
@@ -426,6 +426,15 @@ LaTeX Warning: Label `fig' multiply defined.
 
 LaTeX Warning: Label `fig' multiply defined.
 
+
+LaTeX Warning: Label `fig' multiply defined.
+
+
+LaTeX Warning: Label `fig' multiply defined.
+
+
+LaTeX Warning: Label `fig' multiply defined.
+
 )
 \openout1 = `conference_101719.aux'.
 
@@ -564,19 +573,38 @@ File: imagenes/anomalyAlgo.png Graphic file (type png)
 Package pdftex.def Info: imagenes/anomalyAlgo.png  used on input line 167.
 (pdftex.def)             Requested size: 213.83824pt x 138.25879pt.
  [3 <./imagenes/diagram.png> <./imagenes/anomalyAlgo.png>]
-<imagenes/EfectividadDetectados.png, id=30, 433.62pt x 1084.05pt>
+<imagenes/diagram2.png, id=30, 438.75117pt x 229.67406pt>
+File: imagenes/diagram2.png Graphic file (type png)
+<use imagenes/diagram2.png>
+Package pdftex.def Info: imagenes/diagram2.png  used on input line 177.
+(pdftex.def)             Requested size: 241.31389pt x 126.3211pt.
+<imagenes/comparisonAlgo.png, id=31, 275.71005pt x 145.9854pt>
+File: imagenes/comparisonAlgo.png Graphic file (type png)
+<use imagenes/comparisonAlgo.png>
+Package pdftex.def Info: imagenes/comparisonAlgo.png  used on input line 186.
+(pdftex.def)             Requested size: 220.56834pt x 116.78847pt.
+<imagenes/arrayExplain.png, id=32, 239.86414pt x 79.56927pt>
+File: imagenes/arrayExplain.png Graphic file (type png)
+<use imagenes/arrayExplain.png>
+Package pdftex.def Info: imagenes/arrayExplain.png  used on input line 194.
+(pdftex.def)             Requested size: 191.89156pt x 63.65549pt.
+<imagenes/EfectividadDetectados.png, id=33, 433.62pt x 1084.05pt>
 File: imagenes/EfectividadDetectados.png Graphic file (type png)
 <use imagenes/EfectividadDetectados.png>
 Package pdftex.def Info: imagenes/EfectividadDetectados.png  used on input line
- 180.
-(pdftex.def)             Requested size: 173.44492pt x 433.61232pt.
-<imagenes/EfectividadExistentes.png, id=31, 433.62pt x 1084.05pt>
+ 204.
+(pdftex.def)             Requested size: 130.087pt x 325.21751pt.
+<imagenes/EfectividadExistentes.png, id=34, 433.62pt x 1084.05pt>
 File: imagenes/EfectividadExistentes.png Graphic file (type png)
 <use imagenes/EfectividadExistentes.png>
 Package pdftex.def Info: imagenes/EfectividadExistentes.png  used on input line
- 186.
-(pdftex.def)             Requested size: 173.44492pt x 433.61232pt.
+ 210.
+(pdftex.def)             Requested size: 130.087pt x 325.21751pt.
 
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [4 <./imagenes/diagram2.png> <./imagenes/comparisonAlgo.png> <./imagenes/array
+Explain.png> <./imagenes/EfectividadDetectados.png>]
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -588,31 +616,31 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[4 <./imagenes/EfectividadDetectados.png> <./imagenes/EfectividadExistentes.png
->] (conference_101719.aux)
+[5 <./imagenes/EfectividadExistentes.png>] (conference_101719.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 4504 strings out of 492946
- 65123 string characters out of 3135527
- 136931 words of memory out of 3000000
- 8326 multiletter control sequences out of 15000+200000
+ 4519 strings out of 492946
+ 65518 string characters out of 3135527
+ 136932 words of memory out of 3000000
+ 8338 multiletter control sequences out of 15000+200000
  43811 words of font info for 98 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,11n,35p,712b,288s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,11n,35p,936b,288s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}<C:/Program Files/Mi
 KTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9
 /fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX 2.9/fonts/ty
-pe1/public/amsfonts/cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public
-/amsfonts/cm/cmsy7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmb8
-a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmbi8a.pfb><C:/Progra
-m Files/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX 2.
-9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on conference_101719.pdf (4 pages, 857961 bytes).
+pe1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/publi
+c/amsfonts/cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts
+/cm/cmsy7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:
+/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmbi8a.pfb><C:/Program Files/M
+iKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/t
+ype1/urw/times/utmri8a.pfb>
+Output written on conference_101719.pdf (5 pages, 1514384 bytes).
 PDF statistics:
- 63 PDF objects out of 1000 (max. 8388607)
+ 76 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 36 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 51 words of extra memory for PDF output out of 10000 (max. 10000000)
 

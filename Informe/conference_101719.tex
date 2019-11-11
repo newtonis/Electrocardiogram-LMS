@@ -172,26 +172,51 @@ Our algorithm checks over each region the energy of the signal and if it is suff
 We obtained apparently good results in some signals of the database, but pretty bad in anothers. So we developed an Accuracy test to measure how good is our method and in which cases it tend to fail.
 
 \section{Accuracy test}
-We had data of the real heart failure times, so we needed to compare that failure times with our failure algorithm declarations. We made two tests to get accuracy information from two different points of view. First we calculated from all detected positive the amount that were calculated correctly, and the we calculated from all the real positives, how much were correctly detected. Note that two points of view are similar but complementary.
-The algorithm consisted of an iteration over the detected failure points that checked if a real failure was in range. We computed an array to optimize that calculation.
-We have run the accuracy test with all signals.
+We had data of the real heart failure times, so we needed to compare that failure times with our failure algorithm declarations. 
+\begin{figure}[H]
+\centerline{\includegraphics[scale=0.55]{imagenes/diagram2}}
+\caption{Basic diagram of our system - the comparison is focused}
+\label{fig}
+\end{figure}
+In the figure we can see that our accuracy detector receives as input the anomalies points, and the real anomalies points, and as output it computes the performance of the algorithm. Ideally according to performance we would improve the other 4 blocks of the global system (highpassH, peakDetector, ARF, anommalyDetector)to continually enhance the system.
+
+We made two tests to get accuracy information from two different points of view. First we calculated from all detected positive the amount that were calculated correctly, and then we calculated from all the real positives, how much were correctly detected. Note that two points of view are similar but complementary. 
+The algorithm consisted of an iteration over the detected failure points that checked if a real failure was near enough. By trial and error we found the range size to select how far the detected anomaly and the real anomaly should be to be considered the same.  
+\begin{figure}[H]
+\centerline{\includegraphics[scale=0.8]{imagenes/comparisonAlgo.png}}
+\caption{Correctly detected/Detected}
+\label{fig}
+\end{figure}
+
+We computed an array to optimize the calculation, that contained 1s if the position was near enough to a real failure point (and 0s otherwise). With the array computed then we could check in $O(1)$ if a failure points was correcly selected. This algorithm would be efficient if the failure real points are much lower than the total points, because setting lots of 1s in the array can be time consuming leading to a slow algorithm. There could be better methods that might involve sorting the failure points arrays, but for our application this method was good enough. In the next picture we can visualize the array computed.
 
 \begin{figure}[H]
-\centerline{\includegraphics[scale=0.4]{imagenes/EfectividadDetectados}}
+\centerline{\includegraphics[scale=0.8]{imagenes/arrayExplain.png}}
+\caption{Correctly detected/Detected}
+\label{fig}
+\end{figure}
+
+
+We have run the accuracy test with all signals.
+These two figures are the results. We made a graphic plot where each row has the results from one of each of the signals presented.
+
+\begin{figure}[H]
+\centerline{\includegraphics[scale=0.3]{imagenes/EfectividadDetectados}}
 \caption{Correctly detected/Detected}
 \label{fig}
 \end{figure}
 
 \begin{figure}[H]
-\centerline{\includegraphics[scale=0.4]{imagenes/EfectividadExistentes}}
+\centerline{\includegraphics[scale=0.3]{imagenes/EfectividadExistentes}}
 \caption{Failures detected/Total heart failures}
 \label{fig}
 \end{figure}
 
-These two figures are the results.
-
 \section{Analysis and validation of results}
+The results are very disperse. In some cases there are very low accuracy rate, there are two main reasons that were studied. The first is that there are signals that have a permanent signal anomaly. That means the adapted algorithm will learn that the anomaly is the correct pattern, thus the algorithm will fail almost always, it is built for causal failures, not permanent. To make an algorithm that deals with those cases a more advanced algorithm, that have information of how the cardiac signals failures are, and how the normal cardiac signals are. This would imply the necessity of a more complete database to train the algorithm. The second failure scenario studied is when there is a failure that has no relationship with the signal form but with a period mismatch of heart signal, this case could more easily handled, by adding a system before the ARF that checks if the peak distance is corrected. 
 
+\section{Conclusion}
+We developed an simple method using adaptative filters to detect some kinds of cardiac failures and find a way to verify it worked right in lot of cases using a database. We studied different improvements that could be done to the different stages of the method, and we found also limitations of the methodology used. It is very probable that the ideas we used are key for other more advance methods, that, are currently out of our scope of knowledge.
 
 \begin{thebibliography}{00}
 \bibitem{b1} Nitish V. Thakor and Yi-Sheng Zhu, ``Applications of Adaptive Filtering to ECG Analysis :
