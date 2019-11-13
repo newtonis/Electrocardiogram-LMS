@@ -81,7 +81,6 @@ def plotSignal(code):
 
     return erroresReales, erroresCalculados, len(errores), errorCount
 
-
 if 0:
     erroresReales, erroresCalculados, countReal, countCalculado = plotSignal("202")
 

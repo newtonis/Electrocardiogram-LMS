@@ -30,7 +30,7 @@ plt.close()
 
 plt.rcdefaults()
 fig, ax = plt.subplots(figsize=(6, 15))
-fig
+
 y_pos = np.arange(len(nombres))
 ax.barh(y_pos, performance2, xerr=np.zeros(len(nombres)), align='center', color="orange")
 
